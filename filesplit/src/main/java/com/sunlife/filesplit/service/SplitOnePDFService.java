@@ -11,12 +11,11 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SplitPDFService {
+public class SplitOnePDFService {
 
-	public void SplitFile() throws IOException {
-		System.out.println("hùng");
+	public void SplitFile(String input, String output) throws IOException {
 		// Loading an existing PDF document
-		File file = new File("D:/Sunlife/AssetPDF/in/filedemo.pdf");
+		File file = new File(input);
 		PDDocument doc = PDDocument.load(file);
 
 		// Instantiating Splitter class
@@ -24,32 +23,16 @@ public class SplitPDFService {
 
 		// splitting the pages of a PDF document
 		List<PDDocument> Pages = splitter.split(doc);
-
-		oddPage(Pages);
-		onePage(Pages);
-	}
-
-	public void onePage(List<PDDocument> Pages) throws IOException {
+		
 		Iterator<PDDocument> iterator = Pages.listIterator();
 		int i = 1;
 		while(iterator.hasNext()){ 
 	        PDDocument pd = iterator.next(); 
-			pd.save("D:/Sunlife/AssetPDF/out/onepage/filedemo_" + i++ + ".pdf");           
+			pd.save(output+"/out_" + i++ + ".pdf");           
 	     } 
 		System.out.println("One Page PDF splitted");
 	}
 
-	public void oddPage(List<PDDocument> Pages) throws IOException {
-		Iterator<PDDocument> iterator = Pages.listIterator();
-		int i = 1;
-		while (iterator.hasNext()) {
-			PDDocument pd = iterator.next();
-			if (i % 2 == 1) {
-				pd.save("D:/Sunlife/AssetPDF/out/oddpage/filedemo_" + i + ".pdf");
-			}
-			i++;
-		}
-		System.out.println("Odd Page PDF splitted");
-	}
+
 
 }
